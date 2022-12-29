@@ -1,5 +1,3 @@
-
-alert(1)
 // Page Loader : hide loader when all are loaded
 $(window).load(function(){
 	"use strict";
@@ -20,7 +18,16 @@ jQuery(document).ready(function($) {
 		  $('.popup-wraper.subscription').addClass('closed');
 		  return false;
 		});
-	// popup end	
+	// popup end
+
+	//------- searcg Dropdowns
+	$('.top-area > .top-search > li > input').on("click",function(){
+		var $parent = $(this).parent('li');
+		$(this).addClass('active').parent().siblings().children('a').removeClass('active');
+		$parent.siblings().children('div').removeClass('active');
+		$(this).siblings('div').toggleClass('active');
+		return false;
+	});
 	
 //------- Notifications Dropdowns
   $('.top-area > .setting-area > li > a').on("click",function(){
@@ -1191,6 +1198,14 @@ jQuery(".post-comt-box textarea").on("keydown", function(event) {
 	
 	
 // Responsive nav dropdowns
+	$('#search-input').on('input', function () {
+		$(this).parent().siblings().children('ul').slideUp();
+		$(this).parent().siblings().removeClass('active');
+		$(this).parent().children('ul').slideToggle();
+		$(this).parent().toggleClass('active');
+		return false;
+	});
+
 	$('li.menu-item-has-children > a').on('click', function () {
 		$(this).parent().siblings().children('ul').slideUp();
 		$(this).parent().siblings().removeClass('active');
