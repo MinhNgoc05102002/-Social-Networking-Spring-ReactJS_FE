@@ -1,16 +1,25 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { DefaultLayout } from "./components/Layout";
 import Newfeed from "~/pages/Newfeed";
 import Profile from "~/pages/Profile";
 import Login from "~/pages/Login";
 import Register from "~/pages/Register"; 
+import { getPosts } from "./services/postService";
+import { useSelector, useDispatch } from "react-redux";
 
 function App() {
+
+  const currentUser = useSelector(state => {
+    return state.users.currentUser == null ? {} : state.users.currentUser
+  });
+  
+
   return (
     <Router>
       <div className="App">
         <Routes>
+          {console.log(currentUser)}
           <Route path="/" element={<DefaultLayout> <Newfeed /> </DefaultLayout>} />
           <Route path="/profile" element={<DefaultLayout> <Profile /> </DefaultLayout>} />
           <Route path="/login" element={<Login />} />

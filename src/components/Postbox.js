@@ -1,4 +1,4 @@
-function Postbox() {
+function Postbox({post}) {
     return (
         <div className="central-meta item">
             <div className="user-post">
@@ -20,20 +20,20 @@ function Postbox() {
                                 </ul>
                             </div>
                         </div>
-                        <ins><a href="time-line.html" title="">Jack Carter</a> Post Album</ins>
-                        <span><i className="fa fa-globe"></i> published: September,15 2020 19:PM </span>
+                        <ins><a href="time-line.html" title="">{post.user.displayName}</a> Post Album</ins>
+                        <span><i className="fa fa-globe"></i> published: {post.createAt} </span>
                     </div>
                     <div className="post-meta">
                         <div className="description">
                             <p>
-                                World's most beautiful car in Curabitur <a href="#" title="">#test drive booking !</a> the most beatuiful car available in america and the saudia arabia, you can book your test drive by our official website
+                                {post.content}
                             </p>
                         </div>
                         <figure>
                             <div className="img-bunch">
                                 <figure>
                                     <a className="strip" href="images/resources/album1.jpg" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
-                                    <img src="images/resources/album1.jpg" alt=""/>
+                                    {/* <img src="images/resources/album1.jpg" alt=""/> */}
                                     </a>
                                 </figure>
                             </div>	
@@ -52,12 +52,12 @@ function Postbox() {
                                     </span>
                                 </li>
                                 <li>
-                                    <div className="likes heart" title="Like/Dislike">❤ <span>2K</span></div>
+                                    <div className="likes heart" title="Like/Dislike">❤ <span>{post.likeCount}</span></div>
                                 </li>
                                 <li>
                                     <span className="comment" title="Comments">
                                         <i className="fa fa-commenting"></i>
-                                        <ins>52</ins>
+                                        <ins>{post.commentCount}</ins>
                                     </span>
                                 </li>
 
