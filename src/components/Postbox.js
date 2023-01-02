@@ -1,10 +1,52 @@
+import {useEffect, useState} from "react";
+import axios from "axios";
+import { type } from "@testing-library/user-event/dist/type";
+
 function Postbox({post}) {
+    const idPost = post.id;
+    let userId = localStorage.getItem('userId');
+    const [listComment, setListComment] = useState([]);
+    // const [checkReply, setCheckReply] = useState(-1);
+    // const [listReply, setListReply] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:8080/posts/' + idPost + '/cmts').then(data => {
+            console.log("list comment trc: ",  listComment)
+            setListComment([...data.data])
+            // let list = [...listReply];
+            // data.data.map(item => {
+            //     if (item.externalCommentId !== -1) list.push(item);
+            // });
+            // setListReply(list);
+            console.log("data: ",  data.data)
+        })
+    }, [])
+
+    // const addComment = (e) => {
+    //     if (e.key === 'Enter') {
+    //         const comment = {
+    //             content: e.target.value,
+    //             blog: {
+    //                 id: idPost
+    //             },
+    //             user: {
+    //                 id: userId
+    //             }
+    //         }
+    //         axios.post('http://localhost:8080/comments', comment).then(data => {
+    //             axios.get('http://localhost:8080/comments/' + idPost).then(data => {
+    //                 setListComment(data.data);
+    //             })
+    //         })
+    //     }
+    // }
+
+
     return (
         <div className="central-meta item">
             <div className="user-post">
                 <div className="friend-info">
                     <figure>
-                        <img src="images/resources/nearly1.jpg" alt=""/>
+                        <img src={post.user.image} alt=""/>
                     </figure>
                     <div className="friend-name">
                         <div className="more">
@@ -92,40 +134,25 @@ function Postbox({post}) {
                     </div>
                     <div className="coment-area" style={{display: "block"}}>
                         <ul className="we-comet">
-                            <li>
-                                <div className="comet-avatar">
-                                    <img src="images/resources/nearly3.jpg" alt=""/>
-                                </div>
-                                <div className="we-comment">
-                                    <h5><a href="time-line.html" title="">Jason borne</a></h5>
-                                    <p>we are working for the dance and sing songs. this video is very awesome for the youngster. please vote this video and like our channel</p>
-                                    <div className="inline-itms">
-                                        <span>1 year ago</span>
-                                        <a className="we-reply" href="#" title="Reply"><i className="fa fa-reply"></i></a>
-                                        <a href="#" title=""><i className="fa fa-heart"></i><span>20</span></a>
+                            {console.log("list comment: ",  listComment)}
+                            {listComment.map(comment =>(
+                                <li key={comment.id}>
+                                    <div className="comet-avatar">
+                                        <img src={comment.user.image} alt=""/>
                                     </div>
-                                </div>
-
-                            </li>
-                            <li>
-                                <div className="comet-avatar">
-                                    <img src="images/resources/comet-4.jpg" alt=""/>
-                                </div>
-                                <div className="we-comment">
-                                    <h5><a href="time-line.html" title="">Sophia</a></h5>
-                                    <p>we are working for the dance and sing songs. this video is very awesome for the youngster.
-                                        <i className="em em-smiley"></i>
-                                    </p>
-                                    <div className="inline-itms">
-                                        <span>1 year ago</span>
-                                        <a className="we-reply" href="#" title="Reply"><i className="fa fa-reply"></i></a>
-                                        <a href="#" title=""><i className="fa fa-heart"></i><span>20</span></a>
+                                    <div className="we-comment">
+                                        <h5><a href="time-line.html" title="">{comment.user.displayName}</a></h5>
+                                        <p>{comment.content}</p>
+                                        <div className="inline-itms">
+                                            <span>{comment.commentAt}</span>
+                                            <a className="we-reply" href="#" title="Reply"><i className="fa fa-reply"></i></a>
+                                            <a href="#" title=""><i className="fa fa-heart"></i><span>{comment.likeCount}</span></a>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="#" title="" className="showmore underline">more comments+</a>
-                            </li>
+                                </li>
+                            ))}
+                            
+                            
                             <li className="post-comment">
                                 <div className="comet-avatar">
                                     <img src="images/resources/nearly1.jpg" alt=""/>

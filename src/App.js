@@ -11,7 +11,11 @@ import { useSelector, useDispatch } from "react-redux";
 function App() {
 
   const currentUser = useSelector(state => {
-    return state.users.currentUser == null ? {} : state.users.currentUser
+    return state.users.currentUser == null ? {
+      "id": 1,
+      "email": "ngoc43552@gmail.com",
+      "username": "ngoc2002",
+    } : state.users.currentUser
   });
   
 
