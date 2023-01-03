@@ -10,16 +10,33 @@ function Postbox({post}) {
     // const [listReply, setListReply] = useState([]);
     useEffect(() => {
         axios.get('http://localhost:8080/posts/' + idPost + '/cmts').then(data => {
-            console.log("list comment trc: ",  listComment)
+            // console.log("list comment trc: ",  listComment)
             setListComment([...data.data])
             // let list = [...listReply];
             // data.data.map(item => {
             //     if (item.externalCommentId !== -1) list.push(item);
             // });
             // setListReply(list);
-            console.log("data: ",  data.data)
+            // console.log("data: ",  data.data)
         })
     }, [])
+
+    const addComment = (e) => {
+        if (e.key === 'Enter') {
+            const comment = {
+                content: e.target.value
+            }
+            axios.post('http://localhost:8080/posts/' + idPost + '/cmts/users/' + userId, comment).then(data => {
+                axios.get('http://localhost:8080/posts/' + idPost + '/cmts').then(data => {
+                    setListComment([...data.data]);
+                })
+            }).then( () => {
+                e.target.value = '';
+            })
+        }
+
+    }
+
 
     // const addComment = (e) => {
     //     if (e.key === 'Enter') {
@@ -159,12 +176,12 @@ function Postbox({post}) {
                                 </div>
                                 <div className="post-comt-box">
                                     <form method="post">
-                                        <textarea placeholder="Post your comment"></textarea>
+                                        <textarea onKeyDown={(event) => {addComment(event)}}  id="comment"  placeholder="Post your comment"></textarea>
                                         <div className="add-smiles">
                                             <div className="uploadimage">
                                                 <i className="fa fa-image"></i>
                                                 <label className="fileContainer">
-                                                    <input type="file"/>
+                                                    {/* <input type="file"/> */}
                                                 </label>
                                             </div>
                                             <span className="em em-expressionless" title="add icon"></span>
@@ -184,7 +201,7 @@ function Postbox({post}) {
                                             </div>
                                         </div>
 
-                                        <button type="submit"></button>
+                                        <button id="postCommnet" type="submit"></button>
                                     </form>	
                                 </div>
                             </li>
