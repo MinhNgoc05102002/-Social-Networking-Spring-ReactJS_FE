@@ -1,5 +1,5 @@
 import $ from "jquery";
-import './GlobalStyles.css'
+// import './GlobalStyles.css'
 // import './css/main.min.css'
 // import './css/weather-icons.min.css'
 // import './css/nprogress.css'
@@ -7,7 +7,6 @@ import './GlobalStyles.css'
 // import './css/color.css'
 // import './css/responsive.css'
 
-import './js/script.js'
 
 
 function GlobalStyles({ children }) {

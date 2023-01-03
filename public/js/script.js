@@ -1,3 +1,4 @@
+
 // Page Loader : hide loader when all are loaded
 $(window).load(function(){
 	"use strict";
@@ -40,7 +41,7 @@ jQuery(document).ready(function($) {
 
   $("body *").not('.top-area > .setting-area > li > a').on("click", function() {
 	 $(".top-area > .setting-area > li > a").removeClass('active');
-	
+
  });
 	
 	
