@@ -4,6 +4,7 @@ import {getUser, loginUser, register} from "../../services/userService";
 const initialState = {
     users: [],
     currentUser: JSON.parse(localStorage.getItem('currentUser')),
+    currentUser: JSON.parse(1),
     checkLogin: false
 }
 const userSlice = createSlice({

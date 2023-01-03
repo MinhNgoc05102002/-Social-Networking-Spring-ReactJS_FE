@@ -11,13 +11,17 @@ function Newfeed() {
       return state.post.posts;
     })
 
-    
+
+    // const notify = () => toast("🦄 Tạo thành công!");
+    // const editorRef = useRef(null);
+
+    // const navigate = useNavigate();
   
     useEffect(()=> {
       dispatch(getPosts());
     }, [])
 
-    return (
+    return ( 
         <section>
             <div className="gap2 gray-bg">
                 <div className="container">
