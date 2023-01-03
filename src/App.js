@@ -1,44 +1,48 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { publicRoutes } from '~/routes'
 import { DefaultLayout } from "./components/Layout";
 import $ from 'jquery';
+import Newfeed from "~/pages/Newfeed";
+import Profile from "~/pages/Profile";
+import Login from "~/pages/Login";
+import Register from "~/pages/Register";
+import { getPosts } from "./services/postService";
+import { useSelector, useDispatch } from "react-redux";
 
+export function AddLibrary(urlOfTheLibrary) {
+    const script = document.createElement('script');
+    script.src = urlOfTheLibrary;
+    script.async = true;
+    document.body.appendChild(script);
+}
 function App() {
-useEffect(()=>{
-    //------- Notifications Dropdowns
-    $('.top-area > .setting-area > li > a').on("click",function(){
-        var $parent = $(this).parent('li');
-        $(this).addClass('active').parent().siblings().children('a').removeClass('active');
-        $parent.siblings().children('div').removeClass('active');
-        $(this).siblings('div').addClass('active');
-        return false;
-    });
+  const currentUser = useSelector(state => {
+    return state.users.currentUser == null ? {} : state.users.currentUser
+  });
 
-    $("body *").not('.top-area > .setting-area > li > a').on("click", function() {
-        $(".top-area > .setting-area > li > div, a").removeClass('active');
-    });
-
-    // dfdfdf
-
-})
   return (
     <Router>
       <div className="App">
         <Routes>
-          {publicRoutes.map((route, index) => {
+          {console.log(currentUser)}
+          <Route path="/" element={ <Newfeed /> }/>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/* {publicRoutes.map((route, index) => {
             const Layout = route.layout === null ? Fragment : DefaultLayout;
             const Page = route.component;
             return <Route key={index} path = {route.path} element = {<Layout><Page /></Layout>}/>
           })}
-          
+           */}
         </Routes>
       </div>
+        {AddLibrary(
+            'js/main.min.js')}
+        {AddLibrary(
+        'js/script.js')}
     </Router>
   );
 }
-
-
-
 
 export default App;

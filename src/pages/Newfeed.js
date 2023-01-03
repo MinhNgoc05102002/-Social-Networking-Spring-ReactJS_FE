@@ -1,8 +1,26 @@
 import NewPostbox from "~/components/NewPostbox";
 import Postbox from "~/components/Postbox";
+import { getPosts } from "~/services/postService";
+import { useSelector, useDispatch } from "react-redux";
+import { Fragment, useEffect } from "react";
+import { DefaultLayout } from '~/components/Layout';
 
 function Newfeed() {
+    const dispatch = useDispatch();
+    const posts = useSelector(state => {
+      console.log(state.post.posts);
+      return state.post.posts;
+    })
+
+    
+  
+    useEffect(()=> {
+      dispatch(getPosts());
+    }, [])
+
     return (
+        <div>
+        <DefaultLayout />
         <section>
             <div className="gap2 gray-bg">
                 <div className="container">
@@ -247,9 +265,9 @@ function Newfeed() {
                                     <NewPostbox />{/* <!-- add post new box --> */}
 
                                     <div className="loadMore">
-                                        <Postbox /> {/*<!-- album post -->*/}
-                                        <Postbox /> {/*<!-- album post -->*/}
-                                        <Postbox /> {/*<!-- album post -->*/}
+                                        {posts.map(post =>(
+                                             <Postbox key={post.id} post={post}/>
+                                        ))}
                                         <div className="central-meta item">
                                             <div className="user-post">
                                                 <div className="friend-info">
@@ -567,6 +585,7 @@ function Newfeed() {
                 </div>
             </div>	
         </section>
+        </div>
     )
 }
 

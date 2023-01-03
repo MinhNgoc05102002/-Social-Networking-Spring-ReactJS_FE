@@ -8,9 +8,7 @@ function DefaultLayout({ children }) {
             <Header />
             <SidebarRight />
             <SidebarLeft />
-            <>
-                { children }
-            </>
+
         </>
      );
 }
