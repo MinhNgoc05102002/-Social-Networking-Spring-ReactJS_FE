@@ -11,7 +11,7 @@ function Newfeed() {
       console.log(state.post.posts);
       return state.post.posts;
     })
-    let userId = 1;
+    let userId = localStorage.getItem('userId');
 
     // const notify = () => toast("🦄 Tạo thành công!");
     // const editorRef = useRef(null);

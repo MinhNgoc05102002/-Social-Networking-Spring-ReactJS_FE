@@ -4,7 +4,7 @@ import {getUser, loginUser, register} from "../../services/userService";
 const initialState = {
     users: [],
     currentUser: JSON.parse(localStorage.getItem('currentUser')),
-    currentUser: JSON.parse(1),
+    // currentUser: JSON.parse(1),
     checkLogin: false
 }
 const userSlice = createSlice({
@@ -13,9 +13,9 @@ const userSlice = createSlice({
     extraReducers: builder => {
         builder.addCase(loginUser.fulfilled, (state, {payload}) => {
             if (payload.user) {
-                localStorage.setItem('currentUser', JSON.stringify(payload.user));
+                localStorage.setItem('currentUser', JSON.stringify(payload));
                 localStorage.setItem('token', payload.token)
-                localStorage.setItem('userId', payload.user.id)
+                localStorage.setItem('userId', payload.userId)
             }
             state.currentUser = payload.user;
         });

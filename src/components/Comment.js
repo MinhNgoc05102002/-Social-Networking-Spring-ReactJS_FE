@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 
 function Comment({comment}) {
     const idComment = comment.id;
-    let userId = 1;
+    let userId = localStorage.getItem('userId');
     const [likeCount, setLikeCount] = useState(comment.likeCount);
     const [like, setLike] = useState(false);
     const navigate = useNavigate();

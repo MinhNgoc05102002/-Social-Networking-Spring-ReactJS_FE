@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 
 
 function Profile() {
-    let userId = 2;
+    let userId = localStorage.getItem('userId');
     let profileId = useParams().idProfile;
     const dispatch = useDispatch();
     const posts = useSelector(state => {

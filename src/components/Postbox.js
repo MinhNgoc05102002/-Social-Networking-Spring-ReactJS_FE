@@ -6,7 +6,7 @@ import { type } from "@testing-library/user-event/dist/type";
 
 function Postbox({post}) {
     const idPost = post.id;
-    let userId = 1;
+    let userId = localStorage.getItem('userId');
     const [listComment, setListComment] = useState([]);
     const [likeCount, setLikeCount] = useState(post.likeCount);
     const [commentCount, setCommentCount] = useState(post.commentCount);
