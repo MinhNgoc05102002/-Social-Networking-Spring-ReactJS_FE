@@ -5,11 +5,12 @@ import { getPosts } from "~/services/postService";
 import { useSelector, useDispatch } from "react-redux";
 import { Fragment, useEffect } from "react";
 import { getPostsByUser } from "~/services/postService";
+import { useParams } from "react-router-dom";
 
 
 function Profile() {
     let userId = 2;
-    let profileId = 2;
+    let profileId = useParams().idProfile;
     const dispatch = useDispatch();
     const posts = useSelector(state => {
       console.log(state.post.posts);
@@ -18,7 +19,7 @@ function Profile() {
 
     function check() {
         if (userId == profileId)
-            return <NewPostbox />
+            return <NewPostbox prePath="/Profile" userId = {userId}/>
     }
     function showPost() {
         if (posts instanceof Array) {
@@ -30,6 +31,7 @@ function Profile() {
     }
 
     useEffect(()=> {
+        console.log(profileId);
         dispatch(getPostsByUser(profileId));
       }, [])
 
