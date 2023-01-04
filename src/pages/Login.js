@@ -3,10 +3,24 @@ import {Field, Form, Formik} from "formik";
 import {loginUser, register} from '~/services/userService';
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
+import { useEffect } from 'react';
 
 function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    let account = {
+        username:"v",
+        password:"1" }
+let userPrinciple = localStorage.getItem("userPrinciple");
+    useEffect(()=>{
+        if (!userPrinciple){
+            dispatch(loginUser(account)).then(({payload}) => {
+                console.log("login api");
+                console.log(payload);
+                localStorage.setItem("userPrinciple",  JSON.stringify(payload) );
+            });
+        }
+    })
     return (
         <div className="www-layout">
             <section>
