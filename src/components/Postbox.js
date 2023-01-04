@@ -6,19 +6,32 @@ function Postbox({post}) {
     const idPost = post.id;
     let userId = 1;
     const [listComment, setListComment] = useState([]);
+    const [likeCount, setLikeCount] = useState(post.likeCount);
+    const [commentCount, setCommentCount] = useState(post.commentCount);
+    const [like, setLike] = useState(false);
     // const [checkReply, setCheckReply] = useState(-1);
     // const [listReply, setListReply] = useState([]);
-    useEffect(() => {
+    useEffect( () => {
         axios.get('http://localhost:8080/posts/' + idPost + '/cmts').then(data => {
             // console.log("list comment trc: ",  listComment)
             setListComment([...data.data])
-            // let list = [...listReply];
-            // data.data.map(item => {
-            //     if (item.externalCommentId !== -1) list.push(item);
-            // });
-            // setListReply(list);
-            // console.log("data: ",  data.data)
+           
+        });
+
+        axios.get('http://localhost:8080/posts/' + idPost + '/likes').then(data => {
+            for (let i = 0; i < data.data.length; i++) {
+                if(data.data[i].user.id === userId) {
+                    setLike(true)
+                }
+            }
         })
+
+        // axios.get('http://localhost:8080/posts/' + idPost).then(data => {
+        //     // console.log("list comment trc: ",  listComment)
+        //     // console.log("post: ", data.data)
+        //     setLikeCount(data.data.likeCount)
+        //     setCommentCount(data.data.commentCount)
+        // });
     }, [])
 
     const addComment = (e) => {
@@ -29,6 +42,7 @@ function Postbox({post}) {
             axios.post('http://localhost:8080/posts/' + idPost + '/cmts/users/' + userId, comment).then(data => {
                 axios.get('http://localhost:8080/posts/' + idPost + '/cmts').then(data => {
                     setListComment([...data.data]);
+                    setCommentCount(commentCount + 1)
                 })
             }).then( () => {
                 e.target.value = '';
@@ -37,25 +51,13 @@ function Postbox({post}) {
 
     }
 
-
-    // const addComment = (e) => {
-    //     if (e.key === 'Enter') {
-    //         const comment = {
-    //             content: e.target.value,
-    //             blog: {
-    //                 id: idPost
-    //             },
-    //             user: {
-    //                 id: userId
-    //             }
-    //         }
-    //         axios.post('http://localhost:8080/comments', comment).then(data => {
-    //             axios.get('http://localhost:8080/comments/' + idPost).then(data => {
-    //                 setListComment(data.data);
-    //             })
-    //         })
-    //     }
-    // }
+    const addLike = () => {
+        axios.get('http://localhost:8080/posts/' + idPost + '/like/users/' + userId).then(data => {
+            setLike(!like);
+            if(like) setLikeCount(likeCount - 1)
+            else setLikeCount(likeCount + 1)
+        })
+    }
 
 
     return (
@@ -111,12 +113,12 @@ function Postbox({post}) {
                                     </span>
                                 </li>
                                 <li>
-                                    <div className="likes heart" title="Like/Dislike">❤ <span>{post.likeCount}</span></div>
+                                    <div style={{color: like?"red":"gray"}} onClick={addLike} className="likes heart" title="Like/Dislike">❤ <span>{likeCount}</span></div>
                                 </li>
                                 <li>
                                     <span className="comment" title="Comments">
                                         <i className="fa fa-commenting"></i>
-                                        <ins>{post.commentCount}</ins>
+                                        <ins>{commentCount}</ins>
                                     </span>
                                 </li>
 
@@ -151,7 +153,6 @@ function Postbox({post}) {
                     </div>
                     <div className="coment-area" style={{display: "block"}}>
                         <ul className="we-comet">
-                            {console.log("list comment: ",  listComment)}
                             {listComment.map(comment =>(
                                 <li key={comment.id}>
                                     <div className="comet-avatar">
