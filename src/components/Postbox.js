@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import Comment from "../components/Comment";
 import { type } from "@testing-library/user-event/dist/type";
 
 function Postbox({post}) {
@@ -20,7 +21,7 @@ function Postbox({post}) {
 
         axios.get('http://localhost:8080/posts/' + idPost + '/likes').then(data => {
             for (let i = 0; i < data.data.length; i++) {
-                if(data.data[i].user.id === userId) {
+                if(data.data[i].user.id === userId && data.data.comment == null) {
                     setLike(true)
                 }
             }
@@ -153,21 +154,9 @@ function Postbox({post}) {
                     </div>
                     <div className="coment-area" style={{display: "block"}}>
                         <ul className="we-comet">
+                            {console.log(listComment[0])}
                             {listComment.map(comment =>(
-                                <li key={comment.id}>
-                                    <div className="comet-avatar">
-                                        <img src={comment.user.image} alt=""/>
-                                    </div>
-                                    <div className="we-comment">
-                                        <h5><a href="time-line.html" title="">{comment.user.displayName}</a></h5>
-                                        <p>{comment.content}</p>
-                                        <div className="inline-itms">
-                                            <span>{comment.commentAt}</span>
-                                            <a className="we-reply" href="#" title="Reply"><i className="fa fa-reply"></i></a>
-                                            <a href="#" title=""><i className="fa fa-heart"></i><span>{comment.likeCount}</span></a>
-                                        </div>
-                                    </div>
-                                </li>
+                                <Comment key={comment.id} comment={comment}/>
                             ))}
                             
                             

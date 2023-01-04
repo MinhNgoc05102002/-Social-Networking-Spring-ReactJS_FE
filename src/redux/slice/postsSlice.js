@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import {getPosts} from "../../services/postService"
 import {addPost} from "../../services/postService"
+import { getPostsByUser } from "../../services/postService"
 
 const initialState = {
     posts: []
@@ -16,6 +17,9 @@ const postsSlice = createSlice({
         });
         builder.addCase(addPost.fulfilled, (state, {payload}) => {
             state.posts.push(payload)
+        });
+        builder.addCase(getPostsByUser.fulfilled, (state, {payload}) => {
+            state.posts = payload;
         });
     }
 })

@@ -1,5 +1,6 @@
 import NewPostbox from "~/components/NewPostbox";
 import Postbox from "~/components/Postbox";
+// import Comment from "~/components/Comment";
 import { getPosts } from "~/services/postService";
 import { useSelector, useDispatch } from "react-redux";
 import { Fragment, useEffect } from "react";

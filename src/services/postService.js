@@ -18,3 +18,11 @@ export const addPost = createAsyncThunk(
         return response.data;
     }
 )
+
+export const getPostsByUser = createAsyncThunk(
+    'posts/getByUser',
+    async (idUser) => {
+        const response = await axios.get('http://localhost:8080/posts/user/'+ idUser)
+        return response.data;
+    }
+)
