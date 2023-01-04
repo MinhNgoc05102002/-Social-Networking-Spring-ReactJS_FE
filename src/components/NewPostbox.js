@@ -11,7 +11,7 @@ function NewPostbox() {
     const [newPost, setNewPost] = useState({
         content: "",
         user: {
-            id: 1
+            id: 2
         },
         status: {
             id: 1

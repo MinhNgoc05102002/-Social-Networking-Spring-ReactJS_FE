@@ -15,6 +15,23 @@ function Comment({comment}) {
         })
     }
 
+    useEffect( () => {
+        axios.get('http://localhost:8080/posts/' + comment.post.id + '/cmts/'+ idComment + '/likes').then(data => {
+            for (let i = 0; i < data.data.length; i++) {
+                if(data.data[i].user.id === userId) {
+                    setLike(true)
+                }
+            }
+        })
+
+        // axios.get('http://localhost:8080/posts/' + idPost).then(data => {
+        //     // console.log("list comment trc: ",  listComment)
+        //     // console.log("post: ", data.data)
+        //     setLikeCount(data.data.likeCount)
+        //     setCommentCount(data.data.commentCount)
+        // });
+    }, [])
+
     return ( 
         <li>
             <div className="comet-avatar">
