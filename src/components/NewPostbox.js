@@ -1,13 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
 import {useNavigate} from 'react-router-dom';
 import { addPost } from "~/services/postService";
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from "axios";
 
 function NewPostbox(prop) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const [currUser, setCurrUser] = useState({});
     const [newPost, setNewPost] = useState({
         content: "",
         user: {
@@ -17,6 +18,15 @@ function NewPostbox(prop) {
             id: 1
         }
     });
+
+    useEffect( () => {
+        axios.get('http://localhost:8080/users/' + prop.userId).then(data => {
+            // console.log("list comment trc: ",  listComment)
+            setCurrUser(data.data);
+           console.log("name",data.data);
+        });
+
+    }, [])
 
     function handleChange(event) {
         setNewPost({
@@ -58,7 +68,7 @@ function NewPostbox(prop) {
             <span className="create-post">Create post</span>
             <div className="new-postbox">
                 <figure>
-                    <img src="images/resources/admin.jpg" alt=""/>
+                    <img src={currUser.image} alt=""/>
                 </figure>
                 <div className="newpst-input">
                     <form method="post">

@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from 'react-router-dom';
-
+import { Link } from "react-router-dom";
 function Comment({comment}) {
     const idComment = comment.id;
-    let userId = localStorage.getItem('userId');
+    let userId =  localStorage.getItem("userPrinciple");
     const [likeCount, setLikeCount] = useState(comment.likeCount);
     const [like, setLike] = useState(false);
     const navigate = useNavigate();
@@ -39,7 +39,7 @@ function Comment({comment}) {
                 <img src={comment.user.image} alt=""/>
             </div>
             <div className="we-comment">
-                <h5><a href="javascript:void(0);" onClick={gotoProfile} title="">{comment.user.displayName}</a></h5>
+                <h5><Link to={'/' + comment.user.id} title="">{comment.user.displayName}</Link></h5>
                 <p>{comment.content}</p>
                 <div className="inline-itms">
                     <span>{comment.commentAt}</span>

@@ -1,22 +1,25 @@
 // import Header from "~/components/Layout/DefaultLayout/Header";
-
 import {loginUser, register} from '~/services/userService';
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import { useEffect } from 'react';
 
 function Login() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     let account = {
         username:"ngoc2002",
-        password:"Ngoc2002" 
-    }
-
+        password:"Ngoc2002" }
+    let userPrinciple = localStorage.getItem("userPrinciple");
+    
     useEffect(()=>{
-        dispatch(loginUser(account)).then(({payload}) => {
-            console.log("login api");
-            console.log(payload);
-        });
+        if (!userPrinciple){
+            dispatch(loginUser(account)).then(({payload}) => {
+                console.log("login api");
+                console.log(payload);
+                localStorage.setItem("userPrinciple",  payload.userId);
+            });
+        }
     })
 
     return (

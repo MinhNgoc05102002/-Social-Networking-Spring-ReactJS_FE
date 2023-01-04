@@ -1,9 +1,27 @@
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {useNavigate} from 'react-router-dom';
 
 function Header() {
+    let userId =  localStorage.getItem("userPrinciple");
+    const [currUser, setCurrUser] = useState({});
+    const navigate = useNavigate();
+    useEffect( () => {
+        axios.get('http://localhost:8080/users/' + userId).then(data => {
+            setCurrUser(data.data);
+        });
+
+    }, [])
+
+    const gotoProfile = () => {
+        console.log("goto");
+        navigate('/' + currUser.id);
+    }
+
     return (
         <div className="topbar stick">
             <div className="logo">
-                <a title="" href="newsfeed.html"><img src="images/logo.png" alt=""/></a>
+                <a title=""><img src="images/logo.png" alt=""/></a>
             </div>
             <div className="top-area">
                 <div className="main-menu">
@@ -518,9 +536,9 @@ function Header() {
                         </div>
                     </li>
                 </ul>
-                <div className="user-img">
-                    <h5>Jack Carter</h5>
-                    <img src="images/resources/admin.jpg" alt=""/>
+                <div onClick={gotoProfile} className="user-img">
+                    <h5>{currUser.displayName}</h5>
+                    <img src={currUser.image} alt=""/>
                     <span className="status f-online"></span>
                     <div className="user-setting">
                         <span className="seting-title">Chat setting <a href="#" title="">see all</a></span>

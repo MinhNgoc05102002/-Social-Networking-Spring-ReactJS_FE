@@ -3,15 +3,30 @@ import Postbox from "~/components/Postbox";
 // import Comment from "~/components/Comment";
 import { getPosts } from "~/services/postService";
 import { useSelector, useDispatch } from "react-redux";
-import { Fragment, useEffect } from "react";
 import { getPostsByUser } from "~/services/postService";
 import { useParams } from "react-router-dom";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 
 function Profile() {
-    let userId = localStorage.getItem('userId');
+    let userId = localStorage.getItem("userPrinciple");
     let profileId = useParams().idProfile;
     const dispatch = useDispatch();
+    const [profileUser, setProfileUser] = useState({});
+    const [currUser, setCurrUser] = useState({});
+
+    useEffect( () => {
+        axios.get('http://localhost:8080/users/' + userId).then(data => {
+            setCurrUser(data.data);
+        });
+
+        axios.get('http://localhost:8080/users/' + profileId).then(data => {
+            setProfileUser(data.data);
+        });
+
+    })
+
     const posts = useSelector(state => {
       console.log(state.post.posts);
       return state.post.posts;
@@ -33,7 +48,7 @@ function Profile() {
     useEffect(()=> {
         console.log(profileId);
         dispatch(getPostsByUser(profileId));
-      }, [])
+      })
 
     return (
         <section>
@@ -83,7 +98,7 @@ function Profile() {
                                             <div className="col-lg-2 col-md-3">
                                                 <div className="profile-author">
                                                     <div className="profile-author-thumb">
-                                                        <img alt="author" src="images/resources/author.jpg"/>
+                                                        <img alt="author" src={profileUser.image}/>
                                                         <div className="edit-dp">
                                                             <label className="fileContainer">
                                                                 <i className="fa fa-camera"></i>
@@ -93,7 +108,7 @@ function Profile() {
                                                     </div>
                                                         
                                                     <div className="author-content">
-                                                        <a className="h4 author-name" href="about.html">Jack Carter</a>
+                                                        <a className="h4 author-name" href="">{profileUser.displayName}</a>
                                                         <div className="country">Ontario, CA</div>
                                                     </div>
                                                 </div>
