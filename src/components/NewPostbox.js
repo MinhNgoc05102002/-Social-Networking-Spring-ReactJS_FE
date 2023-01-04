@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import { addPost } from "~/services/postService";
 import React, {useState} from 'react';
 
-function NewPostbox(userId) {
+function NewPostbox() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -11,7 +11,7 @@ function NewPostbox(userId) {
     const [newPost, setNewPost] = useState({
         content: "",
         user: {
-            id: userId
+            id: 1
         },
         status: {
             id: 1
