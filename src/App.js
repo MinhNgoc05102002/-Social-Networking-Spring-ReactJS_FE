@@ -23,9 +23,9 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          {console.log(currentUser)}
+          {/* {console.log(currentUser)} */}
           <Route path="/" element={<DefaultLayout> <Newfeed /> </DefaultLayout>} />
-          <Route path="/profile" element={<DefaultLayout> <Profile /> </DefaultLayout>} />
+          <Route path={':idProfile'} element={<DefaultLayout> <Profile /> </DefaultLayout>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 

@@ -11,7 +11,7 @@ function Newfeed() {
       console.log(state.post.posts);
       return state.post.posts;
     })
-
+    let userId = 1;
 
     // const notify = () => toast("🦄 Tạo thành công!");
     // const editorRef = useRef(null);
@@ -264,7 +264,7 @@ function Newfeed() {
                                     </aside>
                                 </div>  {/*<!-- sidebar -->*/}
                                 <div className="col-lg-6">
-                                    <NewPostbox />{/* <!-- add post new box --> */}
+                                    <NewPostbox prePath="/" userId = {userId}/>{/* <!-- add post new box --> */}
 
                                     <div className="loadMore">
                                         {posts.map(post =>(

@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import { addPost } from "~/services/postService";
 import React, {useState} from 'react';
 
-function NewPostbox() {
+function NewPostbox(prop) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -11,7 +11,7 @@ function NewPostbox() {
     const [newPost, setNewPost] = useState({
         content: "",
         user: {
-            id: 1
+            id: prop.userId
         },
         status: {
             id: 1
@@ -29,13 +29,14 @@ function NewPostbox() {
     }
 
     const uploadPost = async () => {
+        console.log("newpost: ", newPost);
         if (newPost.content == "") {
             return;
         }
-        let userId = 1;
+        // let userId = 1;
         
         await dispatch(addPost(newPost));
-        await navigate('/');
+        await navigate(prop.prePath);
     }
 
     function handleSubmit(event) {
@@ -44,22 +45,13 @@ function NewPostbox() {
         setNewPost({
             content: "",
             user: {
-                id: 1
+                id: prop.userId
             },
             status: {
                 id: 1
             }
         });
     }
-    // useEffect(() => {
-    //     listAll(imageListRef).then((response) => {
-    //         response.items.forEach((item) => {
-    //             getDownloadURL(item).then(url => {
-    //                 setImageList(prev => [...prev, url]);
-    //             })
-    //         })
-    //     })
-    // }, [])
 
     return (
         <div className="central-meta postbox">

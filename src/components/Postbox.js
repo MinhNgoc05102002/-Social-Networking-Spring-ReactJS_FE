@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import Comment from "../components/Comment";
+import {useNavigate} from 'react-router-dom';
 import { type } from "@testing-library/user-event/dist/type";
 
 function Postbox({post}) {
@@ -10,8 +11,8 @@ function Postbox({post}) {
     const [likeCount, setLikeCount] = useState(post.likeCount);
     const [commentCount, setCommentCount] = useState(post.commentCount);
     const [like, setLike] = useState(false);
-    // const [checkReply, setCheckReply] = useState(-1);
-    // const [listReply, setListReply] = useState([]);
+    const navigate = useNavigate();
+
     useEffect( () => {
         axios.get('http://localhost:8080/posts/' + idPost + '/cmts').then(data => {
             // console.log("list comment trc: ",  listComment)
@@ -27,12 +28,6 @@ function Postbox({post}) {
             }
         })
 
-        // axios.get('http://localhost:8080/posts/' + idPost).then(data => {
-        //     // console.log("list comment trc: ",  listComment)
-        //     // console.log("post: ", data.data)
-        //     setLikeCount(data.data.likeCount)
-        //     setCommentCount(data.data.commentCount)
-        // });
     }, [])
 
     const addComment = (e) => {
@@ -60,12 +55,17 @@ function Postbox({post}) {
         })
     }
 
+    const gotoProfile = () => {
+        console.log("goto");
+        navigate('/' + post.user.id);
+    }
+
 
     return (
         <div className="central-meta item">
             <div className="user-post">
                 <div className="friend-info">
-                    <figure>
+                    <figure onClick={gotoProfile}>
                         <img src={post.user.image} alt=""/>
                     </figure>
                     <div className="friend-name">
@@ -82,7 +82,7 @@ function Postbox({post}) {
                                 </ul>
                             </div>
                         </div>
-                        <ins><a href="time-line.html" title="">{post.user.displayName}</a> Post Album</ins>
+                        <ins><a href="javascript:void(0);" onClick={gotoProfile} title="">{post.user.displayName}</a> Post Album</ins>
                         <span><i className="fa fa-globe"></i> published: {post.createAt} </span>
                     </div>
                     <div className="post-meta">

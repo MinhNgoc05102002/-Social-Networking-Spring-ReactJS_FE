@@ -1,11 +1,13 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {useNavigate} from 'react-router-dom';
 
 function Comment({comment}) {
     const idComment = comment.id;
     let userId = 1;
     const [likeCount, setLikeCount] = useState(comment.likeCount);
     const [like, setLike] = useState(false);
+    const navigate = useNavigate();
 
     const addLike = () => {
         axios.get('http://localhost:8080/posts/' + comment.post.id + '/cmts/' + idComment + '/like/users/' + userId).then(data => {
@@ -15,13 +17,29 @@ function Comment({comment}) {
         })
     }
 
+    useEffect( () => {
+        axios.get('http://localhost:8080/posts/' + comment.post.id + '/cmts/'+ idComment + '/likes').then(data => {
+            for (let i = 0; i < data.data.length; i++) {
+                if(data.data[i].user.id === userId) {
+                    setLike(true)
+                }
+            }
+        })
+
+    }, [])
+
+    const gotoProfile = () => {
+        console.log("goto");
+        navigate('/' + comment.user.id);
+    }
+
     return ( 
         <li>
-            <div className="comet-avatar">
+            <div onClick={gotoProfile} className="comet-avatar">
                 <img src={comment.user.image} alt=""/>
             </div>
             <div className="we-comment">
-                <h5><a href="time-line.html" title="">{comment.user.displayName}</a></h5>
+                <h5><a href="javascript:void(0);" onClick={gotoProfile} title="">{comment.user.displayName}</a></h5>
                 <p>{comment.content}</p>
                 <div className="inline-itms">
                     <span>{comment.commentAt}</span>
